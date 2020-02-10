@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+include_once APPPATH.'core/BRI.php';
+
+use BRI\BRI;
+
 class Store extends CI_Controller{
 
   public function __construct()
@@ -95,6 +99,106 @@ class Store extends CI_Controller{
 
     $this->load->view('landingpage/template/header_store_view',$data);
     $this->load->view('landingpage/store/checkout_view');
+    $this->load->view('landingpage/template/footer_view');
+  }
+
+  function transaksi()
+  {
+    $data = $this->input->post();
+    $data['total'] = $this->cart->total();
+    $data['id_user'] = $_SESSION['id_anggota'];
+
+    $id = $this->store_model->insert_transaksi($data);
+
+    foreach ($this->cart->contents() as $key => $cart) {
+      $cartt = [
+        'id_transaksi_barang' => NULL,
+        'id_transaksi' => $id,
+        'id_barang' => $cart['id'],
+        'qty' => $cart['qty'],
+      ];
+
+      $this->store_model->insert_transaksi_barang($cartt);
+    }
+
+    $this->cart->destroy();
+
+    redirect(base_url('store/semua_transaksi/'. $id));
+  }
+
+  function status_pembayaran($id_transaksi)
+  {
+    $data = $this->db->where('id_transaksi', $id_transaksi)->get('transaksi')->row();
+
+    if ($data->status === "dibayar") {
+      redirect('store/semua_transaksi');
+    }
+
+    $bri = new BRI("rsHcm8RGwSXSR3Hf", "LbLg2GmZmGqwMbPGNOALwJmckvPaRCtj");
+    $institutionCode = "J104408";
+    $brivaNo = "77777";
+    $custCode = $data->noTelp;
+    $nama= $data->nama_depan . ' ' . $data->nama_belakang;
+    $amount=$data->total;
+    $keterangan="";
+    $expiredDate="2017-09-10 09:57:26";
+
+    $datas = array(
+        'institutionCode' => $institutionCode ,
+       'brivaNo' => $brivaNo,
+       'custCode' => $custCode,
+       'nama' => $nama,
+       'amount' => $amount,
+       'keterangan' => $keterangan,
+       'expiredDate' => $expiredDate
+    );
+
+    $brivaData = json_decode($bri->briva_get($datas));
+
+    print_r($brivaData);
+    return;
+
+    if (!$brivaData->status) {
+      $bri->briva_create($datas);
+      $brivaData = json_decode($bri->briva_get($datas));
+    }
+
+    if ($data->total != $brivaData->data->Amount) {
+      $bri->briva_update($datas);
+      $brivaData = json_decode($bri->briva_get($datas));
+    }
+
+    if ($brivaData->data->statusBayar === "N") {
+      $bri->briva_update($datas);
+      $brivaData = json_decode($bri->briva_get($datas));
+    }
+
+    if ($brivaData->data->statusBayar === "Y") {
+      $status_ubah = "dibayar";
+      $status = "menunggu pembayaran";
+
+      $this->db->where('id_transaksi', $id_transaksi)->update('transaksi', [
+        'status' => $status_ubah,
+      ]);
+
+      $datas["amount"] = 0;
+      $datas["statusBayar"] = "N";
+
+      $bri->briva_update($datas);
+      $bri->briva_update_status($datas);
+
+      redirect(base_url('store/semua_transaksi'));
+    }
+
+  }
+
+  public function semua_transaksi($id)
+  {
+    $data['nama'] = 'Data Transaksi';
+    $data['transaksi'] = $this->db->where('id_user', $_SESSION['id_anggota'])->where('id_transaksi', $id)->get('transaksi')->row();
+
+    $this->load->view('landingpage/template/header_store_view',$data);
+    $this->load->view('landingpage/store/semua_transaksi_view',$data);
     $this->load->view('landingpage/template/footer_view');
   }
 

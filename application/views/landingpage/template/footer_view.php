@@ -32,7 +32,7 @@
 					</div>
 					<div class="col-md">
 						<div class="ftco-footer-widget mb-4">
-							<h2 class="ftco-heading-2">Have a Questions?</h2>
+							<h2 class="ftco-heading-2">Punya Pertanyaan?</h2>
 							<div class="block-23 mb-3">
 								<ul>
 									<li><span class="icon icon-map-marker"></span><span class="text">StartupHub CoWorking Lab Gd. Manterawu Lt. 3 R. 304 & R. 305 Faculty of Communications and business Kec. Dayeuhkolot, Bandung, West Java 40257</span></li><br>

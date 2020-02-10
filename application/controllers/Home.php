@@ -17,7 +17,7 @@ class Home extends CI_Controller{
     $data['home'] = TRUE;
 
     $data['koperasi'] = TRUE;
-    
+
     $data['maps'] = $this->koperasi_model->maps()->result();
     $data['koperasi'] = $this->koperasi_model->limit_koperasi()->result();
     $data['product'] = $this->store_model->limit_product()->result();

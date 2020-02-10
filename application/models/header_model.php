@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class header_model extends CI_Model{
+class Header_model extends CI_Model{
 
   public function __construct()
   {

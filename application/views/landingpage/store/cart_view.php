@@ -115,7 +115,7 @@
     						<span>Rp. <?php echo number_format($this->cart->total(),0,',','.'); ?></span>
     					</p>
     				</div>
-    				<p><a href="<?php echo base_url(); ?>Store/checkout" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+    				<p><a href="<?php echo base_url(); ?>Store/checkout" class="btn btn-primary py-3 px-4">Proses ke Checkout</a></p>
     			</div>
     		</div>
 			</div>

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class store_model extends CI_Model{
+class Store_model extends CI_Model{
 
   public function tampil_data($id_koperasi)
   {
@@ -108,6 +108,19 @@ class store_model extends CI_Model{
     $this->db->where('id_barang', $id_barang);
 
     return $this->db->get();
+  }
+
+  public function insert_transaksi($data)
+  {
+    $data['id_transaksi'] = NULL;
+    $data['status'] = 'menunggu pembayaran';
+    $this->db->insert('transaksi', $data);
+    return $this->db->insert_id();
+  }
+
+  public function insert_transaksi_barang($data)
+  {
+    $this->db->insert('transaksi_barang', $data);
   }
 
 }
