@@ -80,8 +80,8 @@
 								<a class="dropdown-item" href="checkout.html">Checkout</a>
 							</div>
 						</li>
+						<li class="nav-item"><a href="<?php echo base_url(); ?>Koperasi" class="nav-link">Koperasi Mitra</a></li>
 						<li class="nav-item"><a href="<?php echo base_url(); ?>About" class="nav-link">About Us</a></li>
-						<li class="nav-item"><a href="<?php echo base_url(); ?>Koperasi" class="nav-link">Join Koperasi</a></li>
 						<?php
 						if (!isset($_SESSION['id_anggota'])) { ?>
 								<li class="nav-item"><a href="<?php echo base_url(); ?>Login" class="nav-link">Login</a></li>

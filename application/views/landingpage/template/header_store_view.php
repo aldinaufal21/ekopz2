@@ -52,8 +52,8 @@
 								<a class="dropdown-item" href="checkout.html">Checkout</a>
 							</div>
 						</li>
+            <li class="nav-item"><a href="<?php echo base_url(); ?>Koperasi" class="nav-link">Koperasi Mitra</a></li>
 						<li class="nav-item"><a href="<?php echo base_url(); ?>About" class="nav-link">About Us</a></li>
-						<li class="nav-item"><a href="<?php echo base_url(); ?>Koperasi" class="nav-link">Join Koperasi</a></li>
 	          <li class="nav-item cta cta-colored"><a href="<?php echo base_url(); ?>Store/cart" class="nav-link"><span class="icon-shopping_cart"></span>[<?php echo $this->cart->total_items() ?>]</a></li>
 
 	        </ul>

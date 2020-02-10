@@ -144,7 +144,7 @@ class Store extends CI_Controller{
     $expiredDate="2017-09-10 09:57:26";
 
     $datas = array(
-        'institutionCode' => $institutionCode ,
+      'institutionCode' => $institutionCode ,
        'brivaNo' => $brivaNo,
        'custCode' => $custCode,
        'nama' => $nama,
@@ -154,9 +154,6 @@ class Store extends CI_Controller{
     );
 
     $brivaData = json_decode($bri->briva_get($datas));
-
-    print_r($brivaData);
-    return;
 
     if (!$brivaData->status) {
       $bri->briva_create($datas);
@@ -171,6 +168,8 @@ class Store extends CI_Controller{
     if ($brivaData->data->statusBayar === "N") {
       $bri->briva_update($datas);
       $brivaData = json_decode($bri->briva_get($datas));
+
+      redirect(base_url('Store/status_barang/'.$id_transaksi));
     }
 
     if ($brivaData->data->statusBayar === "Y") {
@@ -187,7 +186,7 @@ class Store extends CI_Controller{
       $bri->briva_update($datas);
       $bri->briva_update_status($datas);
 
-      redirect(base_url('store/semua_transaksi'));
+      redirect(base_url('Store/selesai_pembayaran/'.$id_transaksi));
     }
 
   }
@@ -202,4 +201,25 @@ class Store extends CI_Controller{
     $this->load->view('landingpage/template/footer_view');
   }
 
+  public function status_barang($id_transaksi)
+  {
+    $data['nama'] = "Status Barang";
+    $id_anggota = $_SESSION['id_anggota'];
+    $data['transaksi'] = $this->db->where('id_transaksi', $id_transaksi)->where('id_user', $id_anggota)->get('transaksi')->row();
+
+    $this->load->view('landingpage/template/header_store_view',$data);
+    $this->load->view('landingpage/store/status_barang_view',$data);
+    $this->load->view('landingpage/template/footer_view');
+  }
+
+  public function selesai_pembayaran($id_transaksi)
+  {
+    $data['nama'] = "Status Barang";
+    $id_anggota = $_SESSION['id_anggota'];
+    $data['transaksi'] = $this->db->where('id_transaksi', $id_transaksi)->where('id_user', $id_anggota)->get('transaksi')->row();
+
+    $this->load->view('landingpage/template/header_store_view',$data);
+    $this->load->view('landingpage/store/selesai_pembayaran_view',$data);
+    $this->load->view('landingpage/template/footer_view');
+  }
 }
