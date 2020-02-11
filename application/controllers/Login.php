@@ -35,6 +35,7 @@ class Login extends CI_Controller{
     );
 
     $cek = $this->login_model->cek_akun_user($whereuser);
+
     //$this->output->enable_profiler(true);
     if ($cek->num_rows() > 0) {
       $data_anggota = $cek->row_array();

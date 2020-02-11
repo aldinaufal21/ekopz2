@@ -134,7 +134,7 @@ class Store extends CI_Controller{
       redirect('store/semua_transaksi');
     }
 
-    $bri = new BRI("rsHcm8RGwSXSR3Hf", "LbLg2GmZmGqwMbPGNOALwJmckvPaRCtj");
+    $bri = new BRI("nxXGDT85O0gFuYe2", "WkW4sSqJ3S3ydyEv5yF9OHQeYiJwoIyy");
     $institutionCode = "J104408";
     $brivaNo = "77777";
     $custCode = $data->noTelp;
